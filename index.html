@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#6A3FA0">
+    <meta name="description" content="H4 ERP - Dealer Network & Reward Management Platform">
+    <title>H4 ERP - Dealer Portal</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav" id="mobileNav">
+        <button class="nav-btn nav-menu" id="navMenuBtn" aria-label="Menu">
+            <svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+        <h1 class="nav-title" id="navTitle">H4 ERP</h1>
+        <button class="nav-btn nav-profile" id="navProfileBtn" aria-label="Profile">
+            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+        </button>
+    </nav>
+
+    <!-- Sidebar Menu -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="company-logo">H4</div>
+            <h2>H4 ERP</h2>
+            <button class="close-sidebar" id="closeSidebarBtn">×</button>
+        </div>
+        
+        <nav class="sidebar-nav" id="sidebarNav">
+            <!-- Menu items dynamically generated -->
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="btn btn-secondary btn-small" id="logoutBtn">Logout</button>
+        </div>
+    </aside>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+        <div class="spinner"></div>
+        <p>Processing...</p>
+    </div>
+
+    <!-- Notifications -->
+    <div id="notificationCenter" class="notification-center"></div>
+    <div id="snackbar" class="snackbar" role="status" aria-live="polite"></div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+
+        <!-- ==========================================
+             SPLASH SCREEN
+             ========================================== -->
+        <div id="splashScreen" class="screen active">
+            <div class="splash-container">
+                <div class="splash-header">
+                    <div class="logo-grid">
+                        <div class="logo-item">
+                            <div class="logo-placeholder av-chem-logo">AV CHEM</div>
+                            <p>AV CHEM</p>
+                        </div>
+                        <div class="logo-divider"></div>
+                        <div class="logo-item">
+                            <div class="logo-placeholder h4-logo">H4</div>
+                            <p>H4 Brand</p>
+                        </div>
+                    </div>
+                    <h1>H4 ERP Platform</h1>
+                    <p>Dealer Network & Reward Management</p>
+                </div>
+
+                <div class="company-info">
+                    <h3>AV CHEM Chemical & Manufacturing</h3>
+                    <p>Construction Chemicals • Tirur, Malappuram, Kerala</p>
+                    <div class="contact-buttons">
+                        <a href="tel:+919895123456" class="btn btn-secondary btn-small">
+                            <svg viewBox="0 0 24 24" width="16" height="16"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                            Call
+                        </a>
+                        <a href="https://wa.me/919895123456" target="_blank" class="btn btn-secondary btn-small">
+                            <svg viewBox="0 0 24 24" width="16" height="16"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.272-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-5.031 1.378c-1.531.92-2.465 2.209-2.734 3.646 0 5.338 4.226 9.646 9.426 9.646a9.318 9.318 0 003.803-.798c1.4-.464 2.617-1.122 3.665-2.183 1.035-1.047 1.811-2.427 2.324-4.071.338-1.119.52-2.329.52-3.595 0-5.231-4.226-9.49-9.426-9.49m0-2.008C6.435 2.971 0 9.424 0 17.25c0 1.865.504 3.631 1.404 5.149L.067 24l6.852-1.333c1.458.792 3.121 1.24 4.897 1.24 7.57 0 13.72-6.157 13.72-13.72 0-3.668-1.43-7.017-3.757-9.456-2.327-2.439-5.523-3.783-8.974-3.783z"/></svg>
+                            WhatsApp
+                        </a>
+                    </div>
+                </div>
+
+                <div class="splash-actions">
+                    <button class="btn btn-primary btn-large" id="btnDealerLogin">Dealer Login</button>
+                    <button class="btn btn-secondary btn-large" id="btnDealerRegister">Register as Dealer</button>
+                    <button class="btn btn-secondary btn-large" id="btnAdminLogin">Admin Panel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             REGISTRATION SCREEN
+             ========================================== -->
+        <div id="registrationScreen" class="screen">
+            <div class="screen-container">
+                <div class="screen-header">
+                    <h1>Dealer Registration</h1>
+                    <p>Join H4 Dealer Network</p>
+                </div>
+
+                <form id="dealerRegistrationForm" class="registration-form">
+                    <!-- Step 1: Personal Details -->
+                    <div class="form-step active" id="regStep1">
+                        <h2 class="step-title">Personal Details</h2>
+                        
+                        <div class="form-group">
+                            <label for="dealerName">Full Name <span class="required">*</span></label>
+                            <input type="text" id="dealerName" placeholder="Your full name" required>
+                            <span class="form-error"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dealerMobile">Mobile Number <span class="required">*</span></label>
+                            <input type="tel" id="dealerMobile" placeholder="10 digit mobile" maxlength="10" inputmode="numeric" required>
+                            <span class="form-error"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dealerWhatsApp">WhatsApp Number</label>
+                            <input type="tel" id="dealerWhatsApp" placeholder="10 digit WhatsApp" maxlength="10" inputmode="numeric">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dealerEmail">Email</label>
+                            <input type="email" id="dealerEmail" placeholder="your@email.com">
+                            <span class="form-error"></span>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" id="regBackFromStep1" style="display: none;">Back</button>
+                            <button type="button" class="btn btn-primary" id="regNextStep1">Next</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Company & Business -->
+                    <div class="form-step" id="regStep2">
+                        <h2 class="step-title">Company Details</h2>
+
+                        <div class="form-group">
+                            <label for="companyName">Company Name <span class="required">*</span></label>
+                            <input type="text" id="companyName" placeholder="Company name" required>
+                            <span class="form-error"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="businessType">Business Type <span class="required">*</span></label>
+                            <select id="businessType" required>
+                                <option value="">Select Business Type</option>
+                                <option value="dealer">Dealer</option>
+                                <option value="distributor">Distributor</option>
+                                <option value="contractor">Contractor</option>
+                                <option value="mason">Mason</option>
+                                <option value="retailer">Retailer</option>
+                                <option value="engineer">Engineer</option>
+                                <option value="architect">Architect</option>
+                                <option value="builder">Builder</option>
+                            </select>
+                            <span class="form-error"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="gstNumber">GST Number</label>
+                            <input type="text" id="gstNumber" placeholder="15 character GST" maxlength="15">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dealerDistrict">District <span class="required">*</span></label>
+                            <select id="dealerDistrict" required>
+                                <option value="">Select District</option>
+                                <option value="malappuram">Malappuram</option>
+                                <option value="ernakulam">Ernakulam</option>
+                                <option value="kozhikode">Kozhikode</option>
+                                <option value="thrissur">Thrissur</option>
+                                <option value="kottayam">Kottayam</option>
+                            </select>
+                            <span class="form-error"></span>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" id="regBackStep2">Back</button>
+                            <button type="button" class="btn btn-primary" id="regNextStep2">Next</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Security -->
+                    <div class="form-step" id="regStep3">
+                        <h2 class="step-title">Account Security</h2>
+
+                        <div class="form-group">
+                            <label for="regUsername">Username <span class="required">*</span></label>
+                            <input type="text" id="regUsername" placeholder="Choose username" required>
+                            <span class="form-error"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="regPassword">Password <span class="required">*</span></label>
+                            <div class="password-input-wrapper">
+                                <input type="password" id="regPassword" placeholder="Password" required>
+                                <button type="button" class="password-toggle">👁</button>
+                            </div>
+                            <div class="password-strength">
+                                <div class="strength-bar"><div class="strength-fill"></div></div>
+                                <span class="strength-text">Strength: None</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="regConfirmPassword">Confirm Password <span class="required">*</span></label>
+                            <div class="password-input-wrapper">
+                                <input type="password" id="regConfirmPassword" placeholder="Confirm password" required>
+                                <button type="button" class="password-toggle">👁</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-checkbox">
+                            <label>
+                                <input type="checkbox" id="regTerms" required>
+                                <span>I accept Terms & Conditions</span>
+                            </label>
+                            <span class="form-error"></span>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" id="regBackStep3">Back</button>
+                            <button type="submit" class="btn btn-primary btn-large">Create Account</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             DEALER LOGIN SCREEN
+             ========================================== -->
+        <div id="dealerLoginScreen" class="screen">
+            <div class="screen-container screen-narrow">
+                <div class="screen-header">
+                    <div class="login-logo">H4</div>
+                    <h1>Dealer Login</h1>
+                    <p>Access your dealer account</p>
+                </div>
+
+                <form id="dealerLoginForm" class="login-form">
+                    <div class="form-group">
+                        <label for="dealerLoginUsername">Username</label>
+                        <input type="text" id="dealerLoginUsername" placeholder="Username" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dealerLoginPassword">Password</label>
+                        <div class="password-input-wrapper">
+                            <input type="password" id="dealerLoginPassword" placeholder="Password" required>
+                            <button type="button" class="password-toggle">👁</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group form-checkbox">
+                        <label>
+                            <input type="checkbox" id="dealerRememberMe">
+                            <span>Remember me</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-large btn-block">Login</button>
+
+                    <p class="text-center text-small" style="margin-top: 16px;">
+                        New dealer? <a href="#" class="link" id="goToRegFromLogin">Register here</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             ADMIN LOGIN SCREEN
+             ========================================== -->
+        <div id="adminLoginScreen" class="screen">
+            <div class="screen-container screen-narrow">
+                <div class="screen-header">
+                    <div class="login-logo">H4</div>
+                    <h1>Admin Panel</h1>
+                    <p>Administrator login</p>
+                </div>
+
+                <form id="adminLoginForm" class="login-form">
+                    <div class="form-group">
+                        <label for="adminUsername">Admin ID</label>
+                        <input type="text" id="adminUsername" placeholder="admin@h4.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="adminPassword">Password</label>
+                        <div class="password-input-wrapper">
+                            <input type="password" id="adminPassword" placeholder="Password" required>
+                            <button type="button" class="password-toggle">👁</button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-large btn-block">Admin Login</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             PENDING APPROVAL SCREEN
+             ========================================== -->
+        <div id="pendingApprovalScreen" class="screen">
+            <div class="screen-container screen-narrow">
+                <div class="pending-approval-container">
+                    <div class="pending-icon">⏳</div>
+                    <h1>Registration Pending</h1>
+                    <p>Your registration is being reviewed by our admin team.</p>
+                    
+                    <div class="approval-status">
+                        <div class="status-step">
+                            <div class="status-number completed">✓</div>
+                            <p>Form Submitted</p>
+                        </div>
+                        <div class="status-line"></div>
+                        <div class="status-step active">
+                            <div class="status-number">2</div>
+                            <p>Admin Review</p>
+                        </div>
+                        <div class="status-line"></div>
+                        <div class="status-step">
+                            <div class="status-number">3</div>
+                            <p>Activated</p>
+                        </div>
+                    </div>
+
+                    <div class="approval-details">
+                        <h3>What happens next?</h3>
+                        <ul>
+                            <li>Admin will verify your details within 24 hours</li>
+                            <li>We'll check your business credentials</li>
+                            <li>You'll receive activation notification via WhatsApp</li>
+                        </ul>
+                    </div>
+
+                    <div class="approval-actions">
+                        <button class="btn btn-secondary btn-large" id="checkStatusBtn">Check Status</button>
+                        <button class="btn btn-secondary btn-large" id="logoutFromPending">Back to Home</button>
+                    </div>
+
+                    <p class="text-center text-small text-muted" style="margin-top: 20px;">
+                        Have questions? <a href="https://wa.me/919895123456" target="_blank" class="link">Contact us on WhatsApp</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             DEALER DASHBOARD
+             ========================================== -->
+        <div id="dealerDashboard" class="screen">
+            <div class="screen-container">
+                <!-- Header Card -->
+                <div class="dashboard-header-card">
+                    <div class="header-content">
+                        <div class="profile-section">
+                            <div class="profile-avatar" id="dealerAvatar">D</div>
+                            <div class="profile-text">
+                                <h2 id="dealerDashName">Dealer Name</h2>
+                                <p id="dealerDashType">Business Type</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="header-action">
+                        <button class="btn btn-secondary btn-small" id="dealerProfileBtn">Profile</button>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">📊</div>
+                        <div class="stat-content">
+                            <p class="stat-label">Coupons Scanned</p>
+                            <p class="stat-value" id="statCoupons">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-content">
+                            <p class="stat-label">Rewards Earned</p>
+                            <p class="stat-value" id="statRewards">₹0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs Navigation -->
+                <div class="tab-navigation">
+                    <button class="tab-btn active" data-tab="wallet">💳 Wallet</button>
+                    <button class="tab-btn" data-tab="orders">📦 Orders</button>
+                    <button class="tab-btn" data-tab="rewards">🎁 Rewards</button>
+                    <button class="tab-btn" data-tab="notifications">🔔 Notifications</button>
+                </div>
+
+                <!-- Tab Content -->
+                <div class="tab-content">
+                    <!-- Wallet Tab -->
+                    <div class="tab-pane active" id="walletTab">
+                        <h3>My Wallet</h3>
+                        
+                        <div class="wallet-cards">
+                            <div class="wallet-card points">
+                                <div class="wallet-icon">⭐</div>
+                                <div class="wallet-info">
+                                    <p class="wallet-label">Points Balance</p>
+                                    <p class="wallet-value" id="pointsBalance">0</p>
+                                </div>
+                            </div>
+                            <div class="wallet-card cashback">
+                                <div class="wallet-icon">💵</div>
+                                <div class="wallet-info">
+                                    <p class="wallet-label">Cashback Available</p>
+                                    <p class="wallet-value" id="cashbackBalance">₹0</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h4 style="margin-top: 24px;">Recent Transactions</h4>
+                        <div id="transactionHistory" class="transaction-list">
+                            <!-- Dynamically populated -->
+                        </div>
+                    </div>
+
+                    <!-- Orders Tab -->
+                    <div class="tab-pane" id="ordersTab">
+                        <h3>Order History</h3>
+                        <div id="orderHistory" class="order-list">
+                            <!-- Dynamically populated -->
+                        </div>
+                    </div>
+
+                    <!-- Rewards Tab -->
+                    <div class="tab-pane" id="rewardsTab">
+                        <h3>Available Rewards</h3>
+                        <div id="rewardsList" class="reward-grid">
+                            <!-- Dynamically populated -->
+                        </div>
+                    </div>
+
+                    <!-- Notifications Tab -->
+                    <div class="tab-pane" id="notificationsTab">
+                        <h3>Notifications</h3>
+                        <div id="notificationsList" class="notification-list">
+                            <!-- Dynamically populated -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="dealer-actions">
+                    <button class="btn btn-primary btn-large" id="scanCouponBtn">📱 Scan Coupon</button>
+                    <button class="btn btn-secondary btn-large" id="redeemRewardBtn">🎁 Redeem Reward</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             ADMIN DASHBOARD
+             ========================================== -->
+        <div id="adminDashboard" class="screen">
+            <div class="screen-container">
+                <div class="screen-header">
+                    <h1>Admin Dashboard</h1>
+                    <p>Manage H4 ERP Platform</p>
+                </div>
+
+                <!-- Admin Tabs -->
+                <div class="tab-navigation">
+                    <button class="tab-btn active" data-tab="adminDealers">👥 Dealers</button>
+                    <button class="tab-btn" data-tab="adminRewards">🎁 Rewards</button>
+                    <button class="tab-btn" data-tab="adminReports">📊 Reports</button>
+                    <button class="tab-btn" data-tab="adminSettings">⚙️ Settings</button>
+                </div>
+
+                <!-- Dealers Tab -->
+                <div class="tab-pane active" id="adminDealersTab">
+                    <h3>Dealer Management</h3>
+                    
+                    <div class="admin-section">
+                        <h4>Pending Approvals</h4>
+                        <div id="pendingDealers" class="dealer-list">
+                            <!-- Dynamically populated -->
+                        </div>
+                    </div>
+
+                    <div class="admin-section">
+                        <h4>Active Dealers</h4>
+                        <div id="activeDealers" class="dealer-list">
+                            <!-- Dynamically populated -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rewards Tab -->
+                <div class="tab-pane" id="adminRewardsTab">
+                    <h3>Reward Management</h3>
+                    
+                    <button class="btn btn-primary" id="addNewRewardBtn">+ Add Reward</button>
+
+                    <div id="rewardsList" class="reward-admin-list" style="margin-top: 20px;">
+                        <!-- Dynamically populated -->
+                    </div>
+                </div>
+
+                <!-- Reports Tab -->
+                <div class="tab-pane" id="adminReportsTab">
+                    <h3>Reports & Analytics</h3>
+                    
+                    <div class="report-grid">
+                        <div class="report-card">
+                            <h4>Dealer Report</h4>
+                            <p id="reportTotalDealers">0 active dealers</p>
+                            <button class="btn btn-secondary btn-small">View</button>
+                        </div>
+                        <div class="report-card">
+                            <h4>Reward Distribution</h4>
+                            <p id="reportTotalRewards">0 rewards distributed</p>
+                            <button class="btn btn-secondary btn-small">View</button>
+                        </div>
+                        <div class="report-card">
+                            <h4>Wallet Activity</h4>
+                            <p id="reportWalletTotal">₹0 total value</p>
+                            <button class="btn btn-secondary btn-small">View</button>
+                        </div>
+                        <div class="report-card">
+                            <h4>Coupon Scans</h4>
+                            <p id="reportTotalScans">0 total scans</p>
+                            <button class="btn btn-secondary btn-small">View</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Tab -->
+                <div class="tab-pane" id="adminSettingsTab">
+                    <h3>System Settings</h3>
+                    
+                    <div class="settings-section">
+                        <h4>Company Details</h4>
+                        <div class="form-group">
+                            <label>Company Name</label>
+                            <input type="text" value="AV CHEM" class="setting-input">
+                        </div>
+                        <div class="form-group">
+                            <label>Company Mobile</label>
+                            <input type="tel" value="+91 9895123456" class="setting-input">
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h4>Backup & Restore</h4>
+                        <button class="btn btn-secondary" id="backupDataBtn">📥 Backup Data</button>
+                        <button class="btn btn-secondary" id="restoreDataBtn">📤 Restore Data</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             COUPON SCANNER SCREEN
+             ========================================== -->
+        <div id="scannerScreen" class="screen">
+            <div class="scanner-container">
+                <div class="scanner-header">
+                    <h2>Scan Coupon</h2>
+                    <button class="close-btn" id="closeScannerBtn">×</button>
+                </div>
+
+                <div class="scanner-content">
+                    <div id="scannerInput" class="scanner-input-area">
+                        <input type="text" id="couponCodeInput" placeholder="Scan or enter coupon code..." autofocus>
+                    </div>
+
+                    <div id="scanResult" class="scan-result" style="display: none;">
+                        <!-- Result displayed here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             REWARD REDEMPTION SCREEN
+             ========================================== -->
+        <div id="redeemScreen" class="screen">
+            <div class="screen-container">
+                <div class="screen-header">
+                    <h1>Redeem Rewards</h1>
+                </div>
+
+                <div class="redeem-container">
+                    <div class="gift-gallery">
+                        <div id="giftGallery" class="gift-grid">
+                            <!-- Dynamically populated -->
+                        </div>
+                    </div>
+
+                    <div id="giftDetails" class="gift-details" style="display: none;">
+                        <button class="close-btn" id="closeGiftDetailsBtn">×</button>
+                        <div id="giftDetailsContent">
+                            <!-- Details shown here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Modal Templates -->
+    <div id="modals" class="modals-container">
+        <!-- Approval Dialog -->
+        <div id="approvalDialog" class="modal" style="display: none;">
+            <div class="modal-content">
+                <h2>Dealer Approval</h2>
+                <p id="approvalDealer"></p>
+                <div class="modal-actions">
+                    <button class="btn btn-secondary" id="approveDealerBtn">Approve</button>
+                    <button class="btn btn-error" id="rejectDealerBtn">Reject</button>
+                    <button class="btn btn-secondary" id="closeApprovalBtn">Close</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Reward Dialog -->
+        <div id="rewardDialog" class="modal" style="display: none;">
+            <div class="modal-content">
+                <h2>Add New Reward</h2>
+                <form id="addRewardForm">
+                    <div class="form-group">
+                        <label>Reward Name</label>
+                        <input type="text" id="rewardName" placeholder="Reward name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Reward Type</label>
+                        <select id="rewardType" required>
+                            <option value="">Select Type</option>
+                            <option value="points">Points</option>
+                            <option value="cashback">Cashback</option>
+                            <option value="gift">Gift</option>
+                            <option value="discount">Discount</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Value</label>
+                        <input type="number" id="rewardValue" placeholder="Value" required>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="button" class="btn btn-secondary" id="closeRewardDialogBtn">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Overlay -->
+    <div id="modalOverlay" class="modal-overlay" style="display: none;" onclick="closeAllModals()"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
